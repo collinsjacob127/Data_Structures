@@ -64,7 +64,6 @@ impl<T> Drop for List<T> {
     }
 }
 
-<<<<<<< HEAD
 pub struct IntoIter<T>(List<T>);
 
 impl<T> List<T> {
@@ -125,8 +124,6 @@ impl<'a, T> Iterator for IterMut<'a, T> {
     }
 }
 
-=======
->>>>>>> parent of bf9abe5 (Added iterable support)
 #[cfg(test)]
 mod test {
     use super::List;
@@ -176,7 +173,6 @@ mod test {
         assert_eq!(list.peek(), Some(&10));
         assert_eq!(list.pop(), Some(10));
     }
-<<<<<<< HEAD
 
     #[test]
     fn into_iter() {
@@ -218,7 +214,4 @@ mod test {
         assert_eq!(iter.next(), Some(&mut 1));
         assert_eq!(iter.next(), None);
     }
-
-=======
->>>>>>> parent of bf9abe5 (Added iterable support)
 }
