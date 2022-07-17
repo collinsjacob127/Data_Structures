@@ -64,6 +64,45 @@ impl<T> Drop for List<T> {
     }
 }
 
+pub struct IntoIter<T>(List<T>);
+
+impl<T> List<T> {
+    pub fn into_iter(self) -> IntoIter<T> {
+        IntoIter(self)
+    }
+}
+
+impl<T> Iterator for IntoIter<T> {
+    type Item = T;
+    fn next(&mut self) -> Option<Self::Item> {
+       self.0.pop() 
+    }
+}
+
+pub struct Iter<'a, T> {
+    next: Option<&'a Node<T>>,
+}
+
+impl<T> List<T> {
+    pub fn iter<'a>(&'a self) -> Iter<'a, T> {
+        Iter { next: self.head.as_deref() }
+    }
+}
+
+impl<'a, T> Iterator for Iter<'a, T> {
+    type Item = &'a T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.next.map(|node| {
+            // Other option for doing the below task:
+            // self.next = node.next.as_ref().map::<&Node<T>, _>(|node| &node);
+            // Turbofish!!! ::<>
+            self.next = node.next.as_deref();
+            &node.elem
+        })
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::List;
@@ -112,5 +151,32 @@ mod test {
 
         assert_eq!(list.peek(), Some(&10));
         assert_eq!(list.pop(), Some(10));
+    }
+
+    #[test]
+    fn into_iter() {
+        let mut list = List::new();
+        list.push(1); list.push(2);
+        list.push(3);
+
+        let mut iter = list.into_iter();
+        assert_eq!(iter.next(),  Some(3));
+        assert_eq!(iter.next(),  Some(2));
+        assert_eq!(iter.next(),  Some(1));
+        assert_eq!(iter.next(),  None);
+    }
+
+    #[test]
+    fn iter() {
+        let mut list = List::new();
+        list.push(1); list.push(2);
+        list.push(3); list.push(4);
+        let mut itervar = list.iter();
+
+        assert_eq!(itervar.next(), Some(&4));
+        assert_eq!(itervar.next(), Some(&3));
+        assert_eq!(itervar.next(), Some(&2));
+        assert_eq!(itervar.next(), Some(&1));
+        assert_eq!(itervar.next(), None);
     }
 }
