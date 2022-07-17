@@ -1,6 +1,7 @@
 pub mod first;
+pub mod second;
 #[cfg(test)]
-mod tests {
+mod test {
     #[test]
     fn it_works() {
         let result = 2 + 2;
