@@ -1,7 +1,10 @@
-// Jacob Collins
-// First.rs
-// Linked list implementation
-// July 13, 2022
+/*
+Jacob Collins
+First.rs
+Linked list implementation
+Based on tutorial from: https://rust-unofficial.github.io/too-many-lists/index.html
+July 13, 2022
+*/
 use std::mem;
 
 pub struct List {
