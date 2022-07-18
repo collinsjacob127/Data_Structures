@@ -1,2 +1,2 @@
 # Rust
-Practicing rust by making lots of linked lists and various data structures.
+Practicing rust by making lots of data structures.
