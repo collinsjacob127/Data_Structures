@@ -1,7 +1,6 @@
 /*
 Jacob Collins
-First.rs
-Linked list implementation
+Linked list skeleton
 Based on tutorial from: https://rust-unofficial.github.io/too-many-lists/index.html
 July 13, 2022
 */

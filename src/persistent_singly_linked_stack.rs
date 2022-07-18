@@ -1,6 +1,6 @@
 /*
 Jacob Collins
-Singly-Linked Stack
+Persistent Singly-Linked Stack
 Based on tutorial from: https://rust-unofficial.github.io/too-many-lists/index.html
 July 17, 2022
 */
