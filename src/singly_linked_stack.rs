@@ -1,6 +1,7 @@
 /*
 Jacob Collins
 Singly-Linked Stack
+Second data structure in tutorial
 Based on tutorial from: https://rust-unofficial.github.io/too-many-lists/index.html
 July 17, 2022
 */

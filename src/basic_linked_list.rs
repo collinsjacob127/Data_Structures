@@ -1,6 +1,7 @@
 /*
 Jacob Collins
 Linked list skeleton
+First data structure in tutorial
 Based on tutorial from: https://rust-unofficial.github.io/too-many-lists/index.html
 July 13, 2022
 */
