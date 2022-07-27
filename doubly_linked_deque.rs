@@ -1,10 +1,10 @@
 /*
 Jacob Collins
-Persistent Singly-Linked Stack
-Third data structure in tutorial
+A Bad but Safe Doubly Linked Deque
+Fourth data structure in tutorial
 Based on tutorial from: https://rust-unofficial.github.io/too-many-lists/index.html
-Used to learn about inmutable ways to reference lists, and different pointer types in Rust
-July 26, 2022
+Used to learn about interior mutability, and why doubly linked deques are bad.
+July 27, 2022
 */
 use std::rc::Rc;
 // use std::sync::Arc; <- Rc but with Atomics implemented, making it safe for multithreading
