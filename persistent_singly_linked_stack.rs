@@ -3,7 +3,7 @@ Jacob Collins
 Persistent Singly-Linked Stack
 Third data structure in tutorial
 Based on tutorial from: https://rust-unofficial.github.io/too-many-lists/index.html
-July 17, 2022
+July 26, 2022
 */
 use std::rc::Rc;
 pub struct List<T> {
@@ -38,6 +38,30 @@ impl<T> List<T> {
     }
 }
 
+pub struct Iter<'a, T> {
+    next: Option<&'a Node<T>>,
+}
+
+impl<T> List<T> {
+    pub fn iter(&self) -> Iter<'_, T> {
+        Iter { next: self.head.as_deref() }
+    }
+}
+
+impl<'a, T> Iterator for Iter<'a, T> {
+    type Item = &'a T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.next.map(|node| {
+            // Other option for doing the below task:
+            // self.next = node.next.as_ref().map::<&Node<T>, _>(|node| &node);
+            // Turbofish!!! ::<>
+            self.next = node.next.as_deref();
+            &node.elem
+        })
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::List;
@@ -59,5 +83,16 @@ mod test {
 
         let list = list.tail();
         assert_eq!(list.head(), None);
+    }
+
+    #[test]
+    fn iter() {
+        let list = List::new().prepend(1).prepend(2).prepend(3);
+
+        let mut iter = list.iter();
+        
+        assert_eq!(iter.next(), Some(&3));        
+        assert_eq!(iter.next(), Some(&2));        
+        assert_eq!(iter.next(), Some(&1));        
     }
 }
