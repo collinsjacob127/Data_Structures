@@ -8,6 +8,7 @@ July 27, 2022
 */
 // use std::sync::Arc; <- Rc but with Atomics implemented, making it safe for multithreading
 use std::rc::Rc;
+// Mutex<T> instead of RefCell<T> if you want shared mutability in multithreaded situation
 use std::cell::RefCell;
 pub struct List<T> {
     head: Link<T>,
@@ -32,43 +33,67 @@ impl<T> Node<T> {
     }
 }
 
+/*
+Maxims for List struct:
+Every node will always have two references going towards it.
+Each node in the middle of the list will be pointed to by its predecessor and successor.
+Any nodes at the ends of the list will be pointed to by the list itself.
+*/
 impl<T> List<T> {
     pub fn new() -> Self {
         List { head: None, tail: None }
+    }
+    pub fn push_front(&mut self, elem: T) {
+        // new node needs two new links, everything else should have same number of links after.
+        let new_head = Node::new(elem);
+        match self.head.take() {
+            Some(old_head) => {
+                old_head.borrow_mut().prev = Some(new_head.clone());
+                new_head.borrow_mut().next = Some(old_head);
+                self.head = Some(new_head);
+            }
+            None => {
+                self.tail = Some(new_head.clone());
+                self.head = Some(new_head);
+            }
+        }
+    }
+    pub fn pop_front(&mut self) -> Option<T> {
+        // Take the old head, ensuring it's -2 (loses both pointers)
+        self.head.take().map(|old_head| {           // -1 old
+            match old_head.borrow_mut().next.take() { 
+                Some(new_head) => {                 // -1 new
+                    // There IS another element after the old head
+                    new_head.borrow_mut().prev.take();                    // -1 old
+                    self.head = Some(new_head);                           // +1 new
+                    // Total: -2 old, +0 new
+                }
+                None => {
+                    // emptying list
+                    self.tail.take();                                     // -1 old
+                    //total: -2 old, (no new)
+                }
+            }
+            Rc::try_unwrap(old_head).ok().unwrap().into_inner().elem
+        }) 
     }
 }
 
 #[cfg(test)]
 mod test {
     use super::List;
+
     #[test]
     fn basics() {
-        let list = List::new();
-
-        // Check empty list behaves right
-        assert_eq!(list.head(), None);
-
-        let list = list.prepend(1).prepend(2).prepend(3);
-        assert_eq!(list.head(), Some(&3));
-
-        let list = list.tail();
-        assert_eq!(list.head(), Some(&2));
-
-        let list = list.tail();
-        assert_eq!(list.head(), Some(&1));
-
-        let list = list.tail();
-        assert_eq!(list.head(), None);
-    }
-
-    #[test]
-    fn iter() {
-        let list = List::new().prepend(1).prepend(2).prepend(3);
-
-        let mut iter = list.iter();
-
-        assert_eq!(iter.next(), Some(&3));        
-        assert_eq!(iter.next(), Some(&2));        
-        assert_eq!(iter.next(), Some(&1));        
+        let mut list = List::new();
+        list.push_front(1);
+        list.push_front(2);
+        list.push_front(3);
+        list.push_front(4);
+        assert_eq!(list.pop_front(), Some(4));
+        assert_eq!(list.pop_front(), Some(3));
+        assert_eq!(list.pop_front(), Some(2));
+        assert_eq!(list.pop_front(), Some(1));
+        assert_eq!(list.pop_front(), None);
     }
 }
