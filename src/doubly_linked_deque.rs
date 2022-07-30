@@ -45,7 +45,7 @@ impl<T> List<T> {
         List { head: None, tail: None }
     }
     pub fn push_front(&mut self, elem: T) {
-        // new node needs two new links, everything else should have same number of links after.
+        // New node needs +2 links, everything else should have same # refs after
         let new_head = Node::new(elem);
         match self.head.take() {
             Some(old_head) => {
@@ -57,6 +57,21 @@ impl<T> List<T> {
                 self.tail = Some(new_head.clone());
                 self.head = Some(new_head);
             }
+        }
+    }
+    pub fn push_back(&mut self, elem: T) {
+        // New node needs +2 links, everything else should have same # refs after
+        let new_tail = Node::new(elem);
+        match self.tail.take() {                                          // -1 old
+            Some(old_tail) => {
+                old_tail.borrow_mut().next = Some(new_tail.clone());      // +1 new
+                new_tail.borrow_mut().prev = Some(old_tail);              // +1 old
+                self.tail = Some(new_tail);                               // +1 new
+            }                                                             // +0 old, +2 new
+            None => {
+                self.head = Some(new_tail.clone());                       // +1 new
+                self.tail = Some(new_tail);                               // +1 new
+            }                                                             // No old, +2 new
         }
     }
     pub fn pop_front(&mut self) -> Option<T> {
@@ -78,10 +93,33 @@ impl<T> List<T> {
             Rc::try_unwrap(old_head).ok().unwrap().into_inner().elem
         }) 
     }
+    pub fn pop_back(&mut self) -> Option<T> {
+        // Lose two references to tail, all else keeps # refs
+        self.tail.take().map(|old_tail| {     // -1 old
+            match old_tail.borrow_mut().prev.take() {
+                Some(new_tail) => {                 // -1 new
+                    new_tail.borrow_mut().next.take();                    // -1 old
+                    self.tail = Some(new_tail);                           // +1 new
+                }
+                None => {
+                    // emptying list
+                    self.head.take();                                     // -1 old
+                }
+            }
+            Rc::try_unwrap(old_tail).ok().unwrap().into_inner().elem
+        })
+    } 
     pub fn peek_front(&self) -> Option<Ref<T>> {
+        // Must reference, dereference, and unwrap (&*foo_list.peek_front().unwrap() -> Option<&T>)
         self.head.as_ref().map(|node| {
             Ref::map(node.borrow(), |node| &node.elem)
         }) 
+    }
+    pub fn peek_back(&self) -> Option<Ref<T>> {
+    // Must reference, dereference, and unwrap (&*foo_list.peek_front().unwrap() -> Option<&T>)
+        self.tail.as_ref().map(|node| {
+            Ref::map(node.borrow(),|node| &node.elem)
+        })
     }
 }
 
@@ -98,30 +136,31 @@ mod test {
     #[test]
     fn basics() {
         let mut list = List::new();
-
-        // Check empty list behaves right
+        // Works while empty
         assert_eq!(list.pop_front(), None);
-
-        // Populate list
+        // Populate
         list.push_front(1);
         list.push_front(2);
         list.push_front(3);
-
-        // Check normal removal
+        // Depopulate
         assert_eq!(list.pop_front(), Some(3));
         assert_eq!(list.pop_front(), Some(2));
-
-        // Push some more just to make sure nothing's corrupted
-        list.push_front(4);
-        list.push_front(5);
-
-        // Check normal removal
-        assert_eq!(list.pop_front(), Some(5));
-        assert_eq!(list.pop_front(), Some(4));
-
-        // Check exhaustion
+        // Emptied 
         assert_eq!(list.pop_front(), Some(1));
         assert_eq!(list.pop_front(), None);
+        // --- Back ---
+        // Works while empty
+        assert_eq!(list.pop_back(), None);
+        // Populate
+        list.push_back(1);
+        list.push_back(2);
+        list.push_back(3);
+        // Depopulate
+        assert_eq!(list.pop_back(), Some(3));
+        assert_eq!(list.pop_back(), Some(2));
+        // Emptied 
+        assert_eq!(list.pop_back(), Some(1));
+        assert_eq!(list.pop_back(), None);
     }
     #[test]
     fn peek() {
@@ -129,5 +168,9 @@ mod test {
         assert!(list.peek_front().is_none());
         list.push_front(1); list.push_front(2); list.push_front(3);
         assert_eq!(&*list.peek_front().unwrap(), &3);
+        let mut list = List::new();
+        assert!(list.peek_back().is_none());
+        list.push_back(1); list.push_back(2); list.push_back(3);
+        assert_eq!(&*list.peek_back().unwrap(), &3);
     }
 }
