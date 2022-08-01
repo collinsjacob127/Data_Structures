@@ -9,7 +9,7 @@ July 27, 2022
 // use std::sync::Arc; <- Rc but with Atomics implemented, making it safe for multithreading
 use std::rc::Rc;
 // Mutex<T> instead of RefCell<T> if you want shared mutability in multithreaded situation
-use std::cell::{Ref, RefCell};
+use std::cell::{Ref, RefCell, RefMut};
 
 pub struct List<T> {
     head: Link<T>,
@@ -121,6 +121,18 @@ impl<T> List<T> {
             Ref::map(node.borrow(),|node| &node.elem)
         })
     }
+    pub fn peek_front_mut(&mut self) -> Option<RefMut<T>> {
+        // Must reference, dereference, and unwrap (&*foo_list.peek_front().unwrap() -> Option<&T>)
+        self.head.as_ref().map(|node| {
+            RefMut::map(node.borrow_mut(),|node| &mut node.elem)
+        })
+    }
+    pub fn peek_back_mut(&mut self) -> Option<RefMut<T>> {
+        // Must reference, dereference, and unwrap (&*foo_list.peek_front().unwrap() -> Option<&T>)
+        self.tail.as_ref().map(|node| {
+            RefMut::map(node.borrow_mut(),|node| &mut node.elem)
+        })
+    }
 }
 
 impl<T> Drop for List<T> {
@@ -158,6 +170,12 @@ mod test {
         // Depopulate
         assert_eq!(list.pop_back(), Some(3));
         assert_eq!(list.pop_back(), Some(2));
+        // Checking for corruption
+        list.push_back(4);
+        list.push_back(5);
+        // Checking normal removal again
+        assert_eq!(list.pop_back(), Some(5));
+        assert_eq!(list.pop_back(), Some(4));
         // Emptied 
         assert_eq!(list.pop_back(), Some(1));
         assert_eq!(list.pop_back(), None);
@@ -165,12 +183,17 @@ mod test {
     #[test]
     fn peek() {
         let mut list = List::new();
+        // Behaves correctly while empty
         assert!(list.peek_front().is_none());
-        list.push_front(1); list.push_front(2); list.push_front(3);
-        assert_eq!(&*list.peek_front().unwrap(), &3);
-        let mut list = List::new();
         assert!(list.peek_back().is_none());
-        list.push_back(1); list.push_back(2); list.push_back(3);
-        assert_eq!(&*list.peek_back().unwrap(), &3);
+        assert!(list.peek_front_mut().is_none());
+        assert!(list.peek_back_mut().is_none());
+        // Adding to the list
+        list.push_front(1); list.push_front(2); list.push_front(3);
+        // Behaves correctly with elements
+        assert_eq!(&*list.peek_front().unwrap(), &3);
+        assert_eq!(&mut *list.peek_front_mut().unwrap(), &mut 3);
+        assert_eq!(&*list.peek_back().unwrap(), &1);
+        assert_eq!(&mut *list.peek_back_mut().unwrap(), &mut 1);
     }
 }
