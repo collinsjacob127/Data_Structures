@@ -3,3 +3,4 @@ pub mod singly_linked_stack;
 pub mod persistent_singly_linked_stack;
 pub mod doubly_linked_deque;
 // pub mod ok_unsafe_queue;
+pub mod silly_double_singly_linked_list;
