@@ -7,7 +7,3 @@ Practicing rust by making lots of dynamically typed linked lists.
 - Doubly Linked Deque
 - Unsafe Deque
 - **Double Singly-Linked List**
----
-## To-Do:
-- Implement size() for each struct
-- Implement iter() for last two structs.
