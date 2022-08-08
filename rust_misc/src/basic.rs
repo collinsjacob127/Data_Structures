@@ -121,7 +121,9 @@ pub fn basic() {
     }
 
     // range from..til (inclusive)..(notinclusive)
-    // or rage from..=inclusive
+    // or range from..=inclusive
+    // .. assumes X.. to be 0 if undefined, and ..X to be until the end if undefined
+    // &str[..] = &str[0..len]
     for number in (1..4).rev() {
         println!("{number}!");
     }
