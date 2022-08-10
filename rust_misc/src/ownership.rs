@@ -27,7 +27,7 @@ pub fn ownership() {
     let s1 = String::from("hello");
     let s2 = s1.clone(); // referred to as a deep copy
 
-    println!("{}, world!", s1);   
+    println!("{}, world!", s1);
     println!("{}, world!", s2);
 
     // ------- Stack Data (e.g. integers) ------
@@ -54,15 +54,25 @@ pub fn ownership() {
     fn takes_and_gives_back(str_ref: String) -> String {
         str_ref
     }
-    
+
     // ------ References ------
     // either ONE mutable reference OR
     // any number of immutable references
 
     // ------ Slices ------
     // type of reference, so no ownership
-    fn first_word(s: &String) -> String {
+    let s = String::from("hello world!");
 
+    fn first_word(s: &String) -> &str {
+        let bytes = s.as_bytes();
+        for (i, &item) in bytes.iter().enumerate() {
+            if item == b' ' {
+                return &s[..i];
+            }
+        }
+        &s[..]
     }
-}
 
+    let word = first_word(&s);
+    println!("{}", word);
+}
