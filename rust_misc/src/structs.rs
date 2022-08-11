@@ -4,5 +4,6 @@
  * August XX, 2022
  */
 
-
-
+pub fn structs() {
+    unimplemented!();
+}
