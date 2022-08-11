@@ -12,4 +12,5 @@ use crate::structs::structs;
 fn main() {
     basic();
     ownership();
+    structs();
 }
