@@ -3,6 +3,7 @@
  * Outline of how to use structs for structuring data
  * August XX, 2022
  */
+use core::cmp::{max, min};
 
 pub fn structs() {
     // Define struct
@@ -65,18 +66,52 @@ pub fn structs() {
         _height: u32,
     }
 
-    fn make_rect(dims: (u32, u32)) -> Rect {
-        Rect {
-            _width: dims.0,
-            _height: dims.1,
+    let rect1 = Rect::new(20, 50);
+    println!("Area of rect1: {}", rect1.area());
+    dbg!(&rect1);
+
+    // ----- Methods ------
+    // struct functions
+
+    impl Rect {
+        fn new(_width: u32, _height: u32) -> Self {
+            Rect { _width, _height }
+        }
+
+        fn area(&self) -> u32 {
+            self._width * self._height
+        }
+
+        fn _width(&self) -> u32 {
+            self._width
+        }
+
+        fn max(&self) -> u32 {
+            max(self._width, self._height)
+        }
+
+        fn min(&self) -> u32 {
+            min(self._width, self._height)
+        }
+
+        fn can_hold(&self, rect2: &Rect) -> bool {
+            self.max() > rect2.max() && self.min() > rect2.min()
         }
     }
 
-    fn area(rect: &Rect) -> u32 {
-        rect._width * rect._height
-    }
+    let rect1 = Rect {
+        _width: 30,
+        _height: 50,
+    };
+    let rect2 = Rect {
+        _width: 10,
+        _height: 40,
+    };
+    let rect3 = Rect {
+        _width: 60,
+        _height: 45,
+    };
 
-    let rect1 = make_rect((20, 50));
-    println!("Area of rect1: {}", area(&rect1));
-    dbg!(&rect1);
+    println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
+    println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
 }
