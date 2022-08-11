@@ -5,5 +5,5 @@
  */
 
 pub fn structs() {
-    unimplemented!();
+
 }
