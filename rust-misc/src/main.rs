@@ -8,9 +8,12 @@ mod ownership;
 use crate::ownership::ownership;
 mod structs;
 use crate::structs::structs;
+mod enums;
+use crate::enums::enums;
 
 fn main() {
     basic();
     ownership();
     structs();
+    enums();
 }
