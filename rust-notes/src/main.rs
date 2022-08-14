@@ -2,18 +2,24 @@
  * main.rs
  * Combines notes etc for output and testing
  */
-mod basic;
 use crate::basic::basic;
-mod ownership;
-use crate::ownership::ownership;
-mod structs;
-use crate::structs::structs;
-mod enums;
 use crate::enums::enums;
+use crate::ownership::ownership;
+use crate::structs::structs;
+// Example of module scope
+use crate::car::body;
+use crate::car::engine;
+
+pub mod basic;
+pub mod car;
+pub mod enums;
+pub mod ownership;
+pub mod structs;
 
 fn main() {
     basic();
     ownership();
     structs();
     enums();
+    foo_pub();
 }
