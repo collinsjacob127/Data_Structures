@@ -85,15 +85,21 @@ pub fn enums() {
     }
 
     // if - let pattern matching
+    // doesn't check exhaustively so only use if you want
+    // to check one option vs all other options
+
     // first badly using match:
     let name = Some("Johnny");
-    match name {
-        Some(identifier) => println!("{}", identifier),
-        _ => (),
-    }
+    // match name {
+    //     Some(identifier) => println!("{}", identifier),
+    //     _ => (),
+    // }
 
     // using if let:
     if let Some(identifier) = name {
         println!("{}!", identifier);
+    } else {
+        // can use else with if let
+        println!("Not today son");
     }
 }
