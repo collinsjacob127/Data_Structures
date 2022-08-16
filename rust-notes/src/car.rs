@@ -9,10 +9,12 @@
 // engine.rs: submodule
 // body.rs: submodule
 
-use crate::car::body::CarBody;
 // use "as" to rename references
-use crate::car::turbine::CarEngine as PowerhouseOfTheCar;
+// nest references with brackets
+pub use crate::car::{body::CarBody, turbine::CarEngine as PowerhouseOfTheCar};
 
+// instantiates the module for both of these files here.
+// other files wishing to refernce body and turbine should point their paths here
 pub mod body;
 pub mod turbine;
 
