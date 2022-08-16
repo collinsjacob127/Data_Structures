@@ -3,12 +3,10 @@
  * Combines notes etc for output and testing
  */
 use crate::basic::basic;
+use crate::car::car;
 use crate::enums::enums;
 use crate::ownership::ownership;
 use crate::structs::structs;
-// Example of module scope
-use crate::car::body;
-use crate::car::engine;
 
 pub mod basic;
 pub mod car;
@@ -21,5 +19,5 @@ fn main() {
     ownership();
     structs();
     enums();
-    foo_pub();
+    car();
 }
