@@ -6,6 +6,7 @@
 use core::cmp::{max, min};
 
 pub fn structs() {
+    println!("Beginning of structs");
     // Define struct
     struct User {
         _active: bool,

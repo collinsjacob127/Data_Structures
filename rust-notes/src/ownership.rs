@@ -4,6 +4,7 @@
  */
 
 pub fn ownership() {
+    println!("Beginning of ownership");
     // Stack: first in, last out ( in/out <-> ...data )
     // - faster
     // - direct access to the data

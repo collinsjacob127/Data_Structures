@@ -25,6 +25,7 @@ pub enum Car {
 }
 
 pub fn car() {
+    println!("Beginning of car");
     let body = CarBody {
         paint: String::from("blue"),
     };

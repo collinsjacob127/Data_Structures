@@ -4,6 +4,7 @@
  */
 
 pub fn basic() {
+    println!("Beginning of basic");
     // ------------------------ VARS ------------------------
     // --- Constants ---
     const _THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;

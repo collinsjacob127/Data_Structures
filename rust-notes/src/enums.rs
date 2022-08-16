@@ -5,6 +5,7 @@
  */
 
 pub fn enums() {
+    println!("Beginning of enums");
     // Enums are basically much more flexible structs
     //
     // Identifiers
@@ -34,10 +35,7 @@ pub fn enums() {
     }
 
     impl Message {
-        fn call(&self) {
-            // Do something
-            unimplemented!();
-        }
+        fn call(&self) {}
     }
 
     let m = Message::Write(String::from("Test Message says hello!"));
