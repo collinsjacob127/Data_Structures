@@ -36,7 +36,6 @@ pub fn collections() {
     if let Some(second) = v.get(1) {
         println!("The second element is {}", second);
     }
-    // remember that you can't have an immutable and mutable ref at once
 
     // Iteration
     print!("v: [");
@@ -47,16 +46,83 @@ pub fn collections() {
 
     // works with mutable
     let mut v = vec![1, 2, 3, 4, 5];
-    
-    print!("v: [");
+
+    print!("v * 10: [");
     for i in &mut v {
+        *i *= 10;
         print!("{}, ", *i);
     }
     println!("]\n");
 
+    // using enums with vecs to store multiple types in a vec
+    enum SpreadSheetCell {
+        Int(i32),
+        Float(f64),
+        Text(String),
+    }
+
+    let _row: Vec<SpreadSheetCell> = vec![
+        SpreadSheetCell::Int(3),
+        SpreadSheetCell::Float(6.9),
+        SpreadSheetCell::Text(String::from("Example String")),
+    ];
+
     // ----- STRING -----
-// collection of characters
-    
+    // collection of characters
+    // a vector with special changes
+    let mut _s = String::new();
+
+    let data = "Initial contents";
+
+    let _s = data.to_string();
+
+    // UTF-8 encoded so can be pretty flexible
+    println!("hello");
+    let hello = String::from("السلام عليكم");
+    println!("{}", hello);
+    let hello = String::from("Dobrý den");
+    println!("{}", hello);
+    let hello = String::from("Hello");
+    println!("{}", hello);
+    let hello = String::from("שָׁלוֹם");
+    println!("{}", hello);
+    let hello = String::from("नमस्ते");
+    println!("{}", hello);
+    let hello = String::from("こんにちは");
+    println!("{}", hello);
+    let hello = String::from("안녕하세요");
+    println!("{}", hello);
+    let hello = String::from("你好");
+    println!("{}", hello);
+    let hello = String::from("Olá");
+    println!("{}", hello);
+    let hello = String::from("Здравствуйте");
+    println!("{}", hello);
+    let hello = String::from("Hola");
+    println!("{}", hello);
+
+    let goodbye = String::from(", y adios");
+
+    // Takes the contents of hello for itself
+    // just borrows goodbye
+    // don't usually use + for strings unless quick
+
+    //     let pleasantries = hello + &goodbye;
+    //     println!("{}", pleasantries);
+
+    // format!() does NOT take ownership of any params
+    let pleasantries = format!("{}{}", hello, goodbye);
+    println!("{}", pleasantries);
+
+    // note:
+    // string[x] does not work because characters can sometimes
+    // be multiple bytes and returns would get weird
+
+    // string[x..y] does work though because it can return the
+    // full values of the characters it references
+    // Throws up an error if accessing only a partial character
+    // at one of the ends, besides that is all good.
+
     // ----- HASHMAPS -----
     // Map of paired values
 }

@@ -5,7 +5,7 @@
  */
 use core::cmp::{max, min};
 
-pub fn structs() {
+fn structs() {
     println!("Beginning of structs");
     // Define struct
     struct User {
