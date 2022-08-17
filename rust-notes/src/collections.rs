@@ -123,6 +123,20 @@ pub fn collections() {
     // Throws up an error if accessing only a partial character
     // at one of the ends, besides that is all good.
 
+    // Explicitly reference either bytes or chars when iterating
+    // through a string:
+    println!("pleasantries as bytes: ");
+
+    for i in pleasantries.bytes() {
+        print!("{}, ", i);
+    }
+
+    println!("pleasantries as chars: ");
+
+    for i in pleasantries.chars() {
+        print!("{}, ", i);
+    }
+
     // ----- HASHMAPS -----
     // Map of paired values
 }
