@@ -1,7 +1,9 @@
+use crate::collections::pig_latin;
 /* Jacob Collins
  * main.rs
  * Combines notes etc for output and testing
  */
+#[allow(unused_imports)]
 use crate::{
     basic::basic, car::car, collections::collections, collections::median, collections::mode,
     enums::enums, ownership::ownership,
@@ -22,4 +24,5 @@ fn main() {
     let num_list = vec![0, 1, 2, 3, 4, 4, 5];
     println!("Mode: {}", mode(&num_list));
     println!("Median: {}", median(&num_list));
+    pig_latin("A very hairy man died today. He was quite thick.");
 }

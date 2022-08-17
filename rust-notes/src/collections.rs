@@ -211,9 +211,45 @@ pub fn mode(ints: &Vec<i32>) -> i32 {
 }
 
 // Convert strings to pig latin. The first consonant of each word is moved to the end of the word and “ay” is added, so “first” becomes “irst-fay.” Words that start with a vowel have “hay” added to the end instead (“apple” becomes “apple-hay”). Keep in mind the details about UTF-8 encoding!
-pub fn pig_latin(input: &String) -> String {
-    let chars = input.chars();
-    format!(chars[1..].or_insert(""), "-", chars[0], "ay")
+pub fn pig_latin(input: &str) {
+    let words = input.split_whitespace();
+
+    for i in words {
+        print!("{} ", pig_word(&String::from(i)));
+    }
+}
+
+fn pig_word(input: &String) -> String {
+    let first_vow = input.char_indices().find(|c| {
+        c.1 == 'a'
+            || c.1 == 'e'
+            || c.1 == 'i'
+            || c.1 == 'o'
+            || c.1 == 'u'
+            || c.1 == 'A'
+            || c.1 == 'E'
+            || c.1 == 'I'
+            || c.1 == 'O'
+            || c.1 == 'U'
+    });
+
+    // Seperating between vowels
+    let seperated: Vec<&str> = input
+        .splitn(2, |c| {
+            c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'
+        })
+        .collect();
+
+    // Output initialized as blank
+    if let Some(vow) = first_vow {
+        if seperated.len() == 2 {
+            return format!("{}{}-{}ay", vow.1, seperated[1], seperated[0]);
+        } else {
+            return format!("{}-hay", input);
+        }
+    } else {
+        String::from("broken")
+    }
 }
 
 // Using a hash map and vectors, create a text interface to allow a user to add employee names to a department in a company. For example, “Add Sally to Engineering” or “Add Amir to Sales.” Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.
