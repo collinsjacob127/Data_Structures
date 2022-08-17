@@ -168,4 +168,20 @@ pub fn collections() {
     flavor_score.entry(String::from("Chocolate")).or_insert(9);
 
     println!("{:?}", flavor_score);
+
+    // update based on previous value
+    let sentence = "This meat is quite tasty I sure love meat";
+
+    let mut word_counter = HashMap::new();
+
+    for w in sentence.split_whitespace() {
+        let count = word_counter.entry(w).or_insert(0);
+        *count += 1;
+    }
+
+    for i in &word_counter {
+        println!("{}: {}", i.0, i.1);
+    }
+
+    println!("{:?}", &word_counter);
 }
