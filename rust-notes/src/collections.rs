@@ -3,6 +3,7 @@
  * Discusses Vectors, Strings, and Hashmaps
  * August 16, 2022
  */
+use std::collections::HashMap;
 
 pub fn collections() {
     println!("Beginning of collections");
@@ -101,7 +102,7 @@ pub fn collections() {
     let hello = String::from("Hola");
     println!("{}", hello);
 
-    let goodbye = String::from(", y adios");
+    let goodbye = String::from(" y adios");
 
     // Takes the contents of hello for itself
     // just borrows goodbye
@@ -137,6 +138,34 @@ pub fn collections() {
         print!("{}, ", i);
     }
 
+    // replace method: useful for editing (exists in portable crate)
+    // exists method: useful for searching (exists in portable crate)
+
     // ----- HASHMAPS -----
     // Map of paired values
+    // HashMap<K, V> -> Key: input, Value: output
+
+    // no macro for initializing with values
+    let mut flavor_score = HashMap::new();
+
+    // add values
+    flavor_score.insert(String::from("Chocolate"), 9);
+    flavor_score.insert(String::from("Vanilla"), 7);
+    flavor_score.insert(String::from("Strawberry"), 2);
+
+    // get values
+    let flavor = String::from("Chocolate");
+    let score = flavor_score.get(&flavor).copied().unwrap_or(0);
+    println!("{}: {}", flavor, score);
+
+    // overwriting
+    // inserting the same key with a different value overwrites
+    // the value assosciated with that key as you cannot have
+    // multiples of the same key
+
+    // check if key exists then insert value if not
+    flavor_score.entry(String::from("Coffee")).or_insert(10);
+    flavor_score.entry(String::from("Chocolate")).or_insert(9);
+
+    println!("{:?}", flavor_score);
 }
