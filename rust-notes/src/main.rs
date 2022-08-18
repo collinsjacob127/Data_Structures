@@ -6,7 +6,8 @@
 #[allow(unused_imports)]
 use crate::{
     basic::basic, car::car, collections::collections, collections::median, collections::mode,
-    collections::pig_latin, enums::enums, error_handling::error_handling, ownership::ownership,
+    collections::pig_latin, enums::enums, error_handling::match_error_handling,
+    ownership::ownership,
 };
 
 pub mod basic;
@@ -26,5 +27,5 @@ fn main() {
     //    println!("Mode: {}", mode(&num_list));
     //    println!("Median: {}", median(&num_list));
     //    pig_latin("A very hairy man died today. He was quite thick.");
-    error_handling();
+    match_error_handling();
 }
