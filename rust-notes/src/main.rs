@@ -26,4 +26,5 @@ fn main() {
     //    println!("Mode: {}", mode(&num_list));
     //    println!("Median: {}", median(&num_list));
     //    pig_latin("A very hairy man died today. He was quite thick.");
+    error_handling();
 }
