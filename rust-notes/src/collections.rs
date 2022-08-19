@@ -252,4 +252,76 @@ fn pig_word(input: &String) -> String {
     }
 }
 
-// Using a hash map and vectors, create a text interface to allow a user to add employee names to a department in a company. For example, “Add Sally to Engineering” or “Add Amir to Sales.” Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.
+// Using a hash map and vectors, create a text interface to allow a user to add employee names to a department in a company.
+// For example, “Add Sally to Engineering” or “Add Amir to Sales.”
+// Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.
+use std::fs::{self, File};
+use std::io::{self, ErrorKind, Read};
+
+#[allow(clippy::print_literal)]
+pub fn grouped_hash_interface() {
+    println!(
+        "{} \n {} \n {} \n {} \n {}",
+        "What would you like to do?",
+        "1. Add an employee to directory",
+        "2. View a department",
+        "3. View full employee directory",
+        "0. Quit"
+    );
+
+    let mut user_input = String::new();
+
+    let selection: u32;
+
+    loop {
+        io::stdin()
+            .read_line(&mut user_input)
+            .expect("Failed to read line");
+
+        selection = match user_input.trim().parse() {
+            Ok(val) => val,
+            Err(e) => {
+                println!("Error: {}", e);
+                continue;
+            }
+        };
+
+        break;
+    }
+
+    if selection == 1_u32 {
+        // Add employee to dir
+        println!("You have chosen to add an employee to the directory.");
+        // Get employee name:
+        println!("Enter employee name:\n");
+
+        //        // Get employee department:
+        //        println!("Enter employee department: \n");
+        //    } else if selection == 2_u32 {
+        //        // View a department (members of department)
+        //    } else if selection == 2_u32 {
+        //        // View all employees
+        //    } else {
+        // Quit
+        println!("Goodbye!");
+    }
+
+    //    if let file_contents = fs::read_to_string("classed_hash_storage.txt");
+}
+
+//fn get_input<T>(prompt: &str, result: &mut T) {
+//    println!("{:?}", prompt);
+//    let mut response_holder = String::new();
+//
+//    io::stdin()
+//        .read_line(&mut response_holder)
+//        .expect("Failed to read line");
+//
+//    result = match response_holder.trim().parse() {
+//        Ok(val) => val,
+//        Err(e) => {
+//            println!("Error: {}", e);
+//            get_input(prompt, result)
+//        }
+//    };
+//}

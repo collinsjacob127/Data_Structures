@@ -1,6 +1,8 @@
 /* Jacob Collins
  * error_handling.rs
  * practices for handling various errors
+ * File IO
+ * Exe IO
  * August 17, 2022
  */
 
@@ -10,6 +12,7 @@ use std::io::{self, ErrorKind, Read};
 pub fn match_error_handling() {
     let greeting_file_result = File::open("hello.txt");
 
+    #[allow(unused_variables)]
     let greeting_file = match greeting_file_result {
         Ok(file) => file,
         Err(err) => match err.kind() {
@@ -51,6 +54,7 @@ fn match_read_username_from_file() -> Result<String, io::Error> {
 
 #[allow(dead_code)]
 fn qmark_read_username_from_file() -> Result<String, io::Error> {
+    // ? can only be used on functions of the returned type; type must be a Return or Option
     let mut username = String::new();
 
     File::open("hello.txt")?.read_to_string(&mut username)?;
