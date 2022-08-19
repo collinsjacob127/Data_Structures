@@ -1,10 +1,10 @@
 /* Name: Jacob Collins
 * Description:
-Assessment of generics, types, and lifetimes
-* Last Edited: August 18 2022
+Define generics and show some cool uses and properties
+* Last Edited: August XX 2022
 */
 
-pub fn generics_types() {
+pub fn generics() {
     mixup();
 }
 
