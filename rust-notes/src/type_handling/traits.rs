@@ -13,6 +13,8 @@ pub fn traits() {
 }
 
 // ------- TRAIT RETURNS -------
+// you can only return based on trait if there's only one type in your function to return
+// The return type is arbitruary but must be known at compile time
 #[allow(dead_code)]
 fn returns_summarizable() -> impl Summary {
     Tweet {
@@ -56,6 +58,35 @@ pub fn notify<T: Summary + Display>(item1: &T, item2: &T) {...}
 // ------- TRAIT DEFINITIONS & IMPLEMENTATIONS -------
 // Orphan rule:
 // you can't define a non-local trate (e.g. Display) on a non-local type (e.g. Vec)
+
+// Conditionally implementing a type (cmp_display) depending on traits of a generic struct
+#[allow(dead_code)]
+struct Pair<T> {
+    x: T,
+    y: T,
+}
+
+#[allow(dead_code)]
+impl<T> Pair<T> {
+    fn new(x: T, y: T) -> Self {
+        Self { x, y }
+    }
+}
+
+// Method defiition is only valid if type T of pair
+// has both the Display and PartialOrd traits
+#[allow(dead_code)]
+impl<T: Display + PartialOrd> Pair<T> {
+    fn cmp_display(&self) {
+        if self.x >= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
+    }
+}
+
+// Traditional definition of a trait
 pub trait Summary {
     // Method that all types which implement Summary must
     // provide their own definition specific to the type:
