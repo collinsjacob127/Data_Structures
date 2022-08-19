@@ -5,5 +5,5 @@ Notes on lifetimes, their uses, implementations, etc.
 */
 
 pub fn lifetimes() {
-    ()
+    todo!();
 }

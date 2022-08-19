@@ -5,5 +5,14 @@ Notes on traits, their uses, implementations, etc.
 */
 
 pub fn traits() {
-    ()
+    todo!();
+}
+
+pub trait Summary {
+    // Method that all types which implement Summary must
+    // provide their own definition specific to the type:
+    fn summarize(&self) -> String;
+
+    // There can be multiple necessary methods per trait
+    fn as_string(&self) -> str;
 }
