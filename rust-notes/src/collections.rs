@@ -255,7 +255,10 @@ fn pig_word(input: &String) -> String {
 // Using a hash map and vectors, create a text interface to allow a user to add employee names to a department in a company.
 // For example, “Add Sally to Engineering” or “Add Amir to Sales.”
 // Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.
+
+#[allow(unused_imports)]
 use std::fs::{self, File};
+#[allow(unused_imports)]
 use std::io::{self, ErrorKind, Read};
 
 #[allow(clippy::print_literal)]
@@ -305,7 +308,6 @@ pub fn grouped_hash_interface() {
         // Quit
         println!("Goodbye!");
     }
-
     //    if let file_contents = fs::read_to_string("classed_hash_storage.txt");
 }
 
