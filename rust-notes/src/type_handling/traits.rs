@@ -10,20 +10,20 @@ pub fn traits() {
 
 // Orphan rule:
 // you can't define a non-local trate (e.g. Display) on a non-local type (e.g. Vec)
-
 pub trait Summary {
     // Method that all types which implement Summary must
     // provide their own definition specific to the type:
 
     // method as signature:
-    // fn summarize(&self) -> String;
+    // REQUIRES IMPLEMENTATION
+    fn summarize_author(&self) -> String;
 
     // method  with default:
+    // This default happens to call the above method
+    // Only the above method need be defined
     fn summarize(&self) -> String {
-        String::from("What an interesting summary I am!")
+        format!("(Read more from {}...)", self.summarize_author())
     }
-
-    // There can be multiple necessary methods per trait
 }
 
 pub struct NewsArticle {
@@ -33,13 +33,18 @@ pub struct NewsArticle {
     pub content: String,
 }
 
+// Overwriting default for custom value:
 impl Summary for NewsArticle {
-    fn summarize(&self) -> String {
-        format!("{}, by {} ({})", self.headline, self.author, self.location)
+    fn summarize_author(&self) -> String {
+        format!("@{}", self.author)
     }
+
     // Other methods required by summary if necessary:
     // ...
 }
+
+// Loading default:
+// impl Summary for NewsArticle {}
 
 pub struct Tweet {
     pub username: String,
@@ -49,7 +54,7 @@ pub struct Tweet {
 }
 
 impl Summary for Tweet {
-    fn summarize(&self) -> String {
-        format!("{}: {}", self.username, self.content)
+    fn summarize_author(&self) -> String {
+        format!("@{}", self.username)
     }
 }
