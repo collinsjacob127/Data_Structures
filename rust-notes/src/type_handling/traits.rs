@@ -11,6 +11,18 @@ use core::fmt::Display;
 pub fn traits() {
     todo!();
 }
+// Rust checks the validity of all this at compile time so you don't
+// actually have to run the code to tell you messed up, it just
+// lets you know as you write it, more or less.
+
+/*
+Blanket trait implementation:
+Implements a new trait for any type that implements a specified trait
+
+impl<T: Display> ToString for T {
+    // --snip--
+}
+*/
 
 // ------- TRAIT RETURNS -------
 // you can only return based on trait if there's only one type in your function to return
