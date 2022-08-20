@@ -22,7 +22,7 @@ impl Rectangle {
 }
 
 #[cfg(test)]
-mod tests1 {
+mod error_msgs {
     use super::*;
 
     #[test]
@@ -58,23 +58,81 @@ pub struct Guess {
 #[allow(dead_code)]
 impl Guess {
     pub fn new(value: i32) -> Guess {
-        #[allow(clippy::manual_range_contains)]
-        if value < 1 || value > 100 {
-            panic!("Guess value must be between 1 and 100, got {}.", value);
+        if value < 1 {
+            panic!(
+                "Guess value must be greater than or equal to 1, got {}.",
+                value
+            );
+        } else if value > 100 {
+            panic!(
+                "Guess value must be less than or equal to 100, got {}.",
+                value
+            );
         }
 
         Guess { value }
     }
 }
 
+// Testing with specific error codes
 #[cfg(test)]
-mod tests2 {
+mod tests {
     use super::*;
 
-    // This is the attribute that tells compiler this test SHOULD panic
     #[test]
-    #[should_panic]
+    #[should_panic(expected = "less than or equal to 100")]
     fn greater_than_100() {
         Guess::new(200);
+    }
+
+    #[test]
+    #[should_panic(expected = "greater than or equal to 1")]
+    fn less_than_1() {
+        Guess::new(0);
+    }
+}
+
+// You can only test against results where the return type on success is null
+// #[allow(dead_code)]
+// fn base_2_log_possible(x: u32) -> Result<bool, String> {
+//     if x % 2 == 0 {
+//         Ok(true)
+//     } else {
+//         Err(String::from("This number can't have an integer result!"))
+//     }
+//}
+//
+// // Testing against Result<V, T> (bool)
+// #[cfg(test)]
+// mod returns1 {
+//    use super::*;
+//
+//     #[test]
+//     fn checking_2_log() -> Result<bool, String> {
+//         base_2_log_possible(8)
+//     }
+// }
+
+// Testing against result (empty result)
+// lets you just call functions that use result instead of having to manually
+// handle potential errors and environments here
+#[allow(dead_code)]
+fn it_works() -> Result<(), String> {
+    #[allow(clippy::eq_op)]
+    if 2 + 2 == 4 {
+        Ok(())
+    } else {
+        Err(String::from("two plus two does not equal four"))
+    }
+}
+
+// Testing against Result<V, T>
+#[cfg(test)]
+mod returns2 {
+    use super::*;
+
+    #[test]
+    fn checking_2_log() -> Result<(), String> {
+        it_works()
     }
 }
