@@ -35,4 +35,26 @@ pub fn lifetimes() {
         println!("The longest string is {}", result); // This print is allowed
     }
     // println!("The longest string is {}", result); // This print is not
+
+    // You cannot return references to something created in the scope of the function itself
+    //     fn longest<'a>(x: &str, y: &str) -> &'a str {
+    //         let result = String::from("really long string");
+    //         result.as_str()
+    //     }
+}
+
+// Lifetimes in a struct
+#[allow(dead_code)]
+struct ImportantExcerpt<'a> {
+    // Must implement a lifetime for references in a struct
+    part: &'a str,
+}
+
+#[allow(dead_code, unused_variables)]
+fn lifetimes_2() {
+    let novel = String::from("Call me Ishmael. Some years ago...");
+    let first_sentence = novel.split('.').next().expect("Could not find a '.'");
+    let i = ImportantExcerpt {
+        part: first_sentence,
+    };
 }
