@@ -8,6 +8,7 @@ Last Edited: August 20 2022
 */
 
 #[allow(dead_code)]
+#[derive(PartialEq, Debug)]
 struct Rectangle {
     width: u32,
     height: u32,
@@ -31,15 +32,20 @@ mod tests {
             height: 3,
         };
         let rect2 = Rectangle {
-            width: 10,
-            height: 1,
-        };
-        let rect3 = Rectangle {
             width: 1,
             height: 1,
         };
+        let rect3 = Rectangle {
+            width: 7,
+            height: 3,
+        };
 
-        assert!(rect1.can_hold(&rect3));
-        assert!(rect2.can_hold(&rect3));
+        // You can use assert as a format! output for custom error msgs
+        assert_ne!(
+            rect1, rect2,
+            "{:?} and {:?} appear the same size",
+            rect1, rect2
+        );
+        assert_eq!(rect1, rect3);
     }
 }
