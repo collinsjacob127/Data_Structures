@@ -22,7 +22,7 @@ impl Rectangle {
 }
 
 #[cfg(test)]
-mod tests {
+mod tests1 {
     use super::*;
 
     #[test]
@@ -47,5 +47,34 @@ mod tests {
             rect1, rect2
         );
         assert_eq!(rect1, rect3);
+    }
+}
+
+#[allow(dead_code)]
+pub struct Guess {
+    value: i32,
+}
+
+#[allow(dead_code)]
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        #[allow(clippy::manual_range_contains)]
+        if value < 1 || value > 100 {
+            panic!("Guess value must be between 1 and 100, got {}.", value);
+        }
+
+        Guess { value }
+    }
+}
+
+#[cfg(test)]
+mod tests2 {
+    use super::*;
+
+    // This is the attribute that tells compiler this test SHOULD panic
+    #[test]
+    #[should_panic]
+    fn greater_than_100() {
+        Guess::new(200);
     }
 }
