@@ -58,3 +58,11 @@ fn lifetimes_2() {
         part: first_sentence,
     };
 }
+
+// Lifetimes in methods
+#[allow(dead_code)]
+impl<'a> ImportantExcerpt<'a> {
+    fn level(&self) -> i32 {
+        3
+    }
+}
