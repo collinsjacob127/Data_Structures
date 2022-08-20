@@ -13,6 +13,7 @@ pub mod basic;
 pub mod collections;
 pub mod enums;
 pub mod error_handling;
+pub mod howto_test;
 pub mod ownership;
 pub mod type_handling;
 
@@ -21,5 +22,6 @@ fn main() {
 
     // Rust and C both return 0 from their executables if the function processed successfully
     // A non-zero return value represents some kind of error
-    type_handling();
+
+    todo!();
 }
