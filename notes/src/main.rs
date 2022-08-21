@@ -3,14 +3,6 @@
  * Combines notes etc for output and testing
  */
 
-pub mod basic;
-pub mod collections;
-pub mod enums;
-pub mod error_handling;
-pub mod howto_test;
-pub mod ownership;
-pub mod type_handling;
-
 use notes::adder::add_two;
 
 fn main() {

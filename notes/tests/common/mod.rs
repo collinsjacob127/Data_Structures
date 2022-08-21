@@ -9,5 +9,5 @@ Last Edited: August 21 2022
 pub fn setup() {
     // Set up the state of the program
     // e.g. create particular files or structures
-    todo!();
+    println!("Pretend this is making some file");
 }
