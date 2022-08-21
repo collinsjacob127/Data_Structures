@@ -7,6 +7,20 @@ only be including things that I'm not already familiar with.
 Last Edited: August 20 2022
 */
 
+// Cargo commands for test:
+// cargo test -x -y -z -- -a -b -c
+// before the '--': arguments relating to the tests
+// after the '--': arguments relating to the binary
+
+// How to switch from parallel testing to series:
+// $ cargo test -- --test-threads=1
+//
+// ^ That is useful if the tests would interfere with eachother
+// e.g. file i/o with the same file or global variables etc.
+
+// How to show output:
+// $ cargo test -- --show-output
+
 #[allow(dead_code)]
 #[derive(PartialEq, Debug)]
 struct Rectangle {
@@ -135,4 +149,13 @@ mod returns2 {
     fn checking_2_log() -> Result<(), String> {
         it_works()
     }
+}
+
+// Filtering out a time-consuming test unless explicitly run:
+// runnning the ignored test:
+// $ cargo test -- --ignored
+#[test]
+#[ignore]
+fn expensive_test() {
+    // code that takes an hour to run
 }
