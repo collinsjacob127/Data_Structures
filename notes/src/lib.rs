@@ -7,10 +7,3 @@ Last Edited: August 21 2022
 */
 
 pub mod adder;
-pub mod basic;
-pub mod collections;
-pub mod enums;
-pub mod error_handling;
-pub mod howto_test;
-pub mod ownership;
-pub mod type_handling;

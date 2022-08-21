@@ -24,6 +24,7 @@ Last Edited: August 20 2022
 // Unit Tests:
 // under src directory; in same files as what they are testing
 // inside of a mod labelled tests with #[cfg(test)] attribute
+// Both public AND private functions can be tested here
 
 #[cfg(test)]
 mod tests {
