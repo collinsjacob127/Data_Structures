@@ -1,9 +1,13 @@
 [package]
-name = "rust-notes"
+name = "notes"
 version = "0.1.0"
 edition = "2021"
+authors = ["Jacob <collinsjacob127@gmail.com>"]
+repository = "https://github.com/collinsjacob127/Rust-Practice"
 # panic = "abort" # this reduces the size of the binary that rust produces, but also makes the OS clean up after Rust instead of rust rewinding and cleaning up more easily.
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+test = true
 
 [dependencies]

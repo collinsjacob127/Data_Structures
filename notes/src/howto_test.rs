@@ -21,22 +21,12 @@ Last Edited: August 20 2022
 // How to show output:
 // $ cargo test -- --show-output
 
-#[allow(dead_code)]
-#[derive(PartialEq, Debug)]
-struct Rectangle {
-    width: u32,
-    height: u32,
-}
-
-#[allow(dead_code)]
-impl Rectangle {
-    fn can_hold(&self, other: &Rectangle) -> bool {
-        self.width > other.width && self.height > other.height
-    }
-}
+// Unit Tests:
+// under src directory; in same files as what they are testing
+// inside of a mod labelled tests with #[cfg(test)] attribute
 
 #[cfg(test)]
-mod error_msgs {
+mod tests {
     use super::*;
 
     #[test]
@@ -62,6 +52,48 @@ mod error_msgs {
         );
         assert_eq!(rect1, rect3);
     }
+
+    // Specific Error codes
+    #[test]
+    #[should_panic(expected = "less than or equal to 100")]
+    fn greater_than_100() {
+        Guess::new(200);
+    }
+
+    #[test]
+    #[should_panic(expected = "greater than or equal to 1")]
+    fn less_than_1() {
+        Guess::new(0);
+    }
+
+    // Testing with Result<T, E> returns
+    #[test]
+    fn checking_2_log() -> Result<(), String> {
+        it_works()
+    }
+
+    // Filtering out a time-consuming test unless explicitly run:
+    // runnning the ignored test:
+    // $ cargo test -- --ignored
+    #[test]
+    #[ignore]
+    fn expensive_test() {
+        // code that takes an hour to run
+    }
+}
+
+#[allow(dead_code)]
+#[derive(PartialEq, Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+#[allow(dead_code)]
+impl Rectangle {
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
 }
 
 #[allow(dead_code)]
@@ -85,24 +117,6 @@ impl Guess {
         }
 
         Guess { value }
-    }
-}
-
-// Testing with specific error codes
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    #[should_panic(expected = "less than or equal to 100")]
-    fn greater_than_100() {
-        Guess::new(200);
-    }
-
-    #[test]
-    #[should_panic(expected = "greater than or equal to 1")]
-    fn less_than_1() {
-        Guess::new(0);
     }
 }
 
@@ -138,24 +152,4 @@ fn it_works() -> Result<(), String> {
     } else {
         Err(String::from("two plus two does not equal four"))
     }
-}
-
-// Testing against Result<V, T>
-#[cfg(test)]
-mod returns2 {
-    use super::*;
-
-    #[test]
-    fn checking_2_log() -> Result<(), String> {
-        it_works()
-    }
-}
-
-// Filtering out a time-consuming test unless explicitly run:
-// runnning the ignored test:
-// $ cargo test -- --ignored
-#[test]
-#[ignore]
-fn expensive_test() {
-    // code that takes an hour to run
 }
