@@ -6,6 +6,7 @@ Making a program to implement a basic grep procedure in rust.
 Last Edited: August 23 2022
 */
 use std::env;
+use std::fs;
 
 fn main() {
     // Use std::env::args_os if you need to collect invalid unicode characters from the command
@@ -17,4 +18,9 @@ fn main() {
 
     println!("Searching for file: {}", filepath);
     println!("Searching for query: {}", query);
+
+    println!("In file {}", filepath);
+    let contents = fs::read_to_string(filepath).expect("The file should have been accessible");
+
+    println!("Contents:\n{}", contents);
 }
