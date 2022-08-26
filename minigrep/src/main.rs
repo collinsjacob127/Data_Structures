@@ -17,24 +17,30 @@ When the command line parsing logic starts getting complicated, extract it from 
 
 fn main() {
     // Use std::env::args_os if you need to collect invalid unicode characters from the command
+
     // Parse cmd line arguments
     let args: Vec<String> = env::args().collect();
-
-    let (query, file_path) = parse_config(&args);
+    let config = parse_config(&args);
 
     // Run the program and handle errors
 
-    println!("Searching for file: {}", file_path);
-    println!("Searching for query: {}", query);
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
 
-    println!("In file {}", file_path);
-    let contents = fs::read_to_string(file_path).expect("The file should have been accessible");
+    let contents =
+        fs::read_to_string(config.file_path).expect("The file should have been accessible");
 
     println!("Contents:\n{}", contents);
 }
 
-fn parse_config(args: &[String]) -> (&str, &str) {
-    let query = &args[1];
-    let file_path = &args[2];
-    (query, file_path)
+struct Config {
+    query: String,
+    file_path: String,
+}
+
+fn parse_config(args: &[String]) -> Config {
+    Config {
+        query: args[1].clone(),
+        file_path: args[2].clone(),
+    }
 }
