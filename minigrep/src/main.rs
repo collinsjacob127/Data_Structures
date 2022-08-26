@@ -5,7 +5,8 @@ Making a program to implement a basic grep procedure in rust.
 - Command line arguments
 Last Edited: August 23 2022
 */
-use std::{env, error::Error, fs, process};
+use minigrep::Config;
+use std::{env, process};
 
 /*
 Guidelines for writing binary projects in rust:
@@ -24,37 +25,8 @@ fn main() {
     });
 
     // Run the program and handle errors
-    if let Err(e) = run(config) {
+    if let Err(e) = minigrep::run(config) {
         println!("Problem reading file: {e}");
         process::exit(1);
     };
-}
-
-fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    println!("Searching for {}", config.query);
-    println!("In file {}", config.file_path);
-
-    let contents = fs::read_to_string(config.file_path)?;
-
-    println!("Contents:\n{}", contents);
-    Ok(())
-}
-
-struct Config {
-    query: String,
-    file_path: String,
-}
-
-impl Config {
-    fn build(args: &[String]) -> Result<Config, &'static str> {
-        // Check that there are enough command line args
-        if args.len() < 3 {
-            return Err("Not enough arguments");
-        }
-
-        Ok(Config {
-            query: args[1].clone(),
-            file_path: args[2].clone(),
-        })
-    }
 }
