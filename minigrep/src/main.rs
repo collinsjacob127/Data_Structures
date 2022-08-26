@@ -5,8 +5,7 @@ Making a program to implement a basic grep procedure in rust.
 - Command line arguments
 Last Edited: August 23 2022
 */
-use std::env;
-use std::fs;
+use std::{env, fs, process};
 
 /*
 Guidelines for writing binary projects in rust:
@@ -20,7 +19,11 @@ fn main() {
 
     // Parse cmd line arguments
     let args: Vec<String> = env::args().collect();
-    let config = Config::new(&args);
+
+    let config = Config::build(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
 
     // Run the program and handle errors
 
@@ -39,13 +42,15 @@ struct Config {
 }
 
 impl Config {
-    fn new(args: &[String]) -> Config {
+    fn build(args: &[String]) -> Result<Config, &'static str> {
+        // Check that there are enough command line args
         if args.len() < 3 {
-            panic!();
+            return Err("Not enough arguments");
         }
-        Config {
+
+        Ok(Config {
             query: args[1].clone(),
             file_path: args[2].clone(),
-        }
+        })
     }
 }
