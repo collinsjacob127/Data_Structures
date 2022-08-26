@@ -5,7 +5,7 @@ Making a program to implement a basic grep procedure in rust.
 - Command line arguments
 Last Edited: August 23 2022
 */
-use std::{env, fs, process};
+use std::{env, error::Error, fs, process};
 
 /*
 Guidelines for writing binary projects in rust:
@@ -15,25 +15,29 @@ When the command line parsing logic starts getting complicated, extract it from 
 */
 
 fn main() {
-    // Use std::env::args_os if you need to collect invalid unicode characters from the command
-
     // Parse cmd line arguments
     let args: Vec<String> = env::args().collect();
 
     let config = Config::build(&args).unwrap_or_else(|err| {
-        println!("Problem parsing arguments: {}", err);
+        println!("Problem parsing arguments: {err}");
         process::exit(1);
     });
 
     // Run the program and handle errors
+    if let Err(e) = run(config) {
+        println!("Problem reading file: {e}");
+        process::exit(1);
+    };
+}
 
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
     println!("Searching for {}", config.query);
     println!("In file {}", config.file_path);
 
-    let contents =
-        fs::read_to_string(config.file_path).expect("The file should have been accessible");
+    let contents = fs::read_to_string(config.file_path)?;
 
     println!("Contents:\n{}", contents);
+    Ok(())
 }
 
 struct Config {
