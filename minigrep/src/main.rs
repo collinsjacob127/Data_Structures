@@ -20,7 +20,7 @@ fn main() {
 
     // Parse cmd line arguments
     let args: Vec<String> = env::args().collect();
-    let config = parse_config(&args);
+    let config = Config::new(&args);
 
     // Run the program and handle errors
 
@@ -38,9 +38,14 @@ struct Config {
     file_path: String,
 }
 
-fn parse_config(args: &[String]) -> Config {
-    Config {
-        query: args[1].clone(),
-        file_path: args[2].clone(),
+impl Config {
+    fn new(args: &[String]) -> Config {
+        if args.len() < 3 {
+            panic!();
+        }
+        Config {
+            query: args[1].clone(),
+            file_path: args[2].clone(),
+        }
     }
 }
