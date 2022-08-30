@@ -13,8 +13,14 @@ use std::{error::Error, fs};
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
 
-    for line in search_case_insensitive(&config.query, &contents) {
-        println!("{line}");
+    if config.ignore_case {
+        for line in search_case_insensitive(&config.query, &contents) {
+            println!("{line}");
+        }
+    } else {
+        for line in search_case_sensitive(&config.query, &contents) {
+            println!("{line}");
+        }
     }
 
     Ok(())
