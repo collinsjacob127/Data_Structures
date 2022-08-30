@@ -5,7 +5,7 @@ Making a program to implement a basic grep procedure in rust.
 - Command line arguments
 Last Edited: August 23 2022
 */
-use minigrep::Config;
+use minigrep::config::Config;
 use std::{env, process};
 
 /*

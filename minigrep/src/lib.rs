@@ -4,6 +4,10 @@ Description:
 Implementing logic and functions for minigrep
 Last Edited: August 25 2022
 */
+
+pub mod config;
+
+use config::Config;
 use std::{error::Error, fs};
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
@@ -12,23 +16,8 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub struct Config {
-    pub query: String,
-    pub file_path: String,
-}
-
-impl Config {
-    pub fn build(args: &[String]) -> Result<Config, &'static str> {
-        // Check that there are enough command line args
-        if args.len() < 3 {
-            return Err("Not enough arguments");
-        }
-
-        Ok(Config {
-            query: args[1].clone(),
-            file_path: args[2].clone(),
-        })
-    }
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a String> {
+    vec![]
 }
 
 #[cfg(test)]
