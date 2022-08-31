@@ -13,20 +13,20 @@ use std::{error::Error, fs};
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
 
-    if config.ignore_case {
-        for line in search_case_insensitive(&config.query, &contents) {
-            println!("{line}");
-        }
+    let results = if config.ignore_case {
+        search_case_insensitive(&config.query, &contents)
     } else {
-        for line in search_case_sensitive(&config.query, &contents) {
-            println!("{line}");
-        }
+        search(&config.query, &contents)
+    };
+
+    for line in results {
+        println!("{line}");
     }
 
     Ok(())
 }
 
-pub fn search_case_sensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let mut lines = Vec::new();
     for line in contents.lines() {
         if line.contains(query) {
@@ -60,10 +60,7 @@ Rust:
 safe, fast, productive.
 Pick three.";
 
-        assert_eq!(
-            vec!["safe, fast, productive."],
-            search_case_sensitive(query, contents)
-        );
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
     }
 
     #[test]
