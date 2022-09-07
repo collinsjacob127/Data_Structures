@@ -8,6 +8,7 @@ Last Edited: August 21 2022
 
 pub mod adder;
 pub mod basic;
+pub mod closures;
 pub mod collections;
 pub mod enums;
 pub mod error_handling;
