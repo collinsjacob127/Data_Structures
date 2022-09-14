@@ -46,12 +46,6 @@ struct Inventory {
 
 impl Inventory {
     fn giveaway(&self, user_pref: Option<ShirtColor>) -> ShirtColor {
-        user_pref.unwrap_or_else(|| {
-            if self.shirts[0] < self.shirts[1] {
-                self.shirts[0]
-            } else {
-                self.shirts[1]
-            }
-        })
+        user_pref.unwrap_or_else(|| {})
     }
 }
