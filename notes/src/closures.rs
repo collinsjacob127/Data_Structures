@@ -45,7 +45,24 @@ struct Inventory {
 }
 
 impl Inventory {
-    fn giveaway(&self, user_pref: Option<ShirtColor>) -> ShirtColor {
-        user_pref.unwrap_or_else(|| {})
+    fn giveaway(&self, user_preference: Option<ShirtColor>) -> ShirtColor {
+        user_preference.unwrap_or_else(|| self.most_stocked())
+    }
+
+    fn most_stocked(&self) -> ShirtColor {
+        let mut red = 0;
+        let mut blue = 0;
+
+        for i in 0..self.shirts.len() - 1 {
+            match self.shirts[i] {
+                ShirtColor::Red => red += 1,
+                ShirtColor::Blue => blue += 1,
+            }
+        }
+        if red > blue {
+            ShirtColor::Red
+        } else {
+            ShirtColor::Blue
+        }
     }
 }
