@@ -35,15 +35,18 @@ There are many ways to implement this. For this example, we’re going to use an
 
 */
 
+#[allow(dead_code)]
 enum ShirtColor {
     Blue,
     Red,
 }
 
+#[allow(dead_code)]
 struct Inventory {
     shirts: Vec<ShirtColor>,
 }
 
+#[allow(dead_code)]
 impl Inventory {
     fn giveaway(&self, user_preference: Option<ShirtColor>) -> ShirtColor {
         user_preference.unwrap_or_else(|| self.most_stocked())
@@ -53,8 +56,8 @@ impl Inventory {
         let mut red = 0;
         let mut blue = 0;
 
-        for i in 0..self.shirts.len() - 1 {
-            match self.shirts[i] {
+        for color in &self.shirts {
+            match color {
                 ShirtColor::Red => red += 1,
                 ShirtColor::Blue => blue += 1,
             }
