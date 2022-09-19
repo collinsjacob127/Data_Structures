@@ -4,6 +4,7 @@ Description:
 Notes on using closures
 Last Edited: September 07 2022
 */
+use std::thread;
 
 pub fn closures() {
     // Closures have a lot of optional syntax
@@ -24,8 +25,16 @@ pub fn closures() {
     //     println!("After push_10 closure: {:?}", set); <- this doesn't work because mutable borrow
     //                                                      from closure definition followed by immutable
     //                                                      borrow from print statement
+
     push_10();
     println!("After push_10 closure: {:?}", set);
+
+    let list = vec![1, 2, 3];
+    println!("Before defining closure: {:?}", list);
+
+    thread::spawn(move || println!("From thread: {:?}", list))
+        .join()
+        .unwrap();
 }
 
 /*
